@@ -1,0 +1,27 @@
+﻿<Window x:Class="DateBaseGUI.Views.TechnologistWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:DateBaseGUI.ViewModels"
+        xmlns:local="clr-namespace:DateBaseGUI.Views"
+        mc:Ignorable="d"
+        Title="TechnologistWindow" Height="300" Width="200">
+    <Window.DataContext>
+        <vm:TechnologistWindowViewModel/>
+    </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CloseApplicationCommand}" Gesture="Esc"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DataGrid IsReadOnly="True" ItemsSource="{Binding Operations}"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="Name of operation:"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Height="30" Width="80" VerticalAlignment="Top" HorizontalAlignment="Right" Text="{Binding Name}"/>
+        <Button Grid.Column="0" Grid.Row="1" Height="30" Width="80" VerticalAlignment="Bottom" Margin="0, 0, 0, 5" 
+                Content="Save" FontSize="18" Command="{Binding AddOpearationCommand}"/>
+    </Grid>
+</Window>

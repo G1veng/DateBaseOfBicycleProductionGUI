@@ -1,0 +1,32 @@
+﻿<Window x:Class="DateBaseGUI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:DateBaseGUI.ViewModels"
+        xmlns:local="clr-namespace:DateBaseGUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="200" Width="400">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding CloseApplicationCommand}" Gesture="Esc"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" Grid.Row="0" Content="Warehouseman" FontSize="20" Command="{Binding OpenWarehousemanWIndowCommand}"/>
+        <Button Grid.Column="1" Grid.Row="0" Content="Technologist" FontSize="20" Command="{Binding OpenTechnologistWindowCommand}"/>
+        <Button Grid.Column="1" Grid.Row="1" Content="Shop Manager" FontSize="20" Command="{Binding OpenShopManagerWindowCommand}"/>
+        <Button Grid.Column="0" Grid.Row="1" Content="Manager" FontSize="20" Command="{Binding OpenManagerWindowCommand}"/>
+        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="Logistician" FontSize="20" Command="{Binding OpenLogisticianWIndowCommand}"/>
+    </Grid>
+</Window>
