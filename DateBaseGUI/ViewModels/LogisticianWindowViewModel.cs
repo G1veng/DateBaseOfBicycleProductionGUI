@@ -14,21 +14,19 @@ namespace DateBaseGUI.ViewModels
     #region Properties
     private DBInteraction _dBInteraction;
     private ObservableCollection<Paths> _paths;
-    public ObservableCollection<Paths> Paths { get => _paths; set => Set(ref _paths, value); }
-
     private ObservableCollection<RegularQuantity> _regularQuantity;
-    public ObservableCollection<RegularQuantity> RegularQuantity { get => _regularQuantity; set => Set(ref _regularQuantity, value); }
-
     private ObservableCollection<RequestForTransition> _requestForTransition;
-    public ObservableCollection<RequestForTransition> RequestForTransition { get => _requestForTransition; set => Set(ref _requestForTransition, value); }
     private ObservableCollection<TransitOrderComposition> _transitOrderComposition;
-    public ObservableCollection<TransitOrderComposition> TransitOrderComposition { get => _transitOrderComposition; set => Set(ref _transitOrderComposition, value); }
-
     private string _startWarId;
     private string _endWarId;
     private string _transitWarId;
     private string _products;
     private string _count;
+
+    public ObservableCollection<Paths> Paths { get => _paths; set => Set(ref _paths, value); }
+    public ObservableCollection<RegularQuantity> RegularQuantity { get => _regularQuantity; set => Set(ref _regularQuantity, value); }
+    public ObservableCollection<RequestForTransition> RequestForTransition { get => _requestForTransition; set => Set(ref _requestForTransition, value); }
+    public ObservableCollection<TransitOrderComposition> TransitOrderComposition { get => _transitOrderComposition; set => Set(ref _transitOrderComposition, value); }
     public string StartWarId { get => _startWarId; set => Set(ref _startWarId, value); }
     public string EndWarId { get => _endWarId; set => Set(ref _endWarId, value);}
     public string TransWarId { get => _transitWarId; set => Set(ref _transitWarId, value); }
@@ -64,7 +62,8 @@ namespace DateBaseGUI.ViewModels
 
     #region CreateTransitionDocumentCommand
     public ICommand CreateTransitionDocumentCommand { get; }
-    private bool CanCreateTransitionDocumentCommandExecute(object p) => true;
+    private bool CanCreateTransitionDocumentCommandExecute(object p) => System.Int32.TryParse(StartWarId, out int result) && System.Int32.TryParse(TransWarId, out result) &&
+      System.Int32.TryParse(EndWarId, out result) && System.Int32.TryParse(Products, out result) && System.Int32.TryParse(Count, out result);
     private void OnCreateTransitionDocumentCommandExevuted(object p)
     {
       string[] products = Products.Split(',');
@@ -95,6 +94,17 @@ namespace DateBaseGUI.ViewModels
     }
 
     #endregion
+
+    #region AddNewPathCommand
+    public ICommand AddNewPathCommand { get; }
+    private bool CanAddNewPathCommandExecute(object p) => System.Int32.TryParse(StartWarId, out int result) && System.Int32.TryParse(TransWarId, out result) &&
+      System.Int32.TryParse(EndWarId, out result);
+    private void OnAddNewPathCommandExecuted(object p)
+    {
+      _dBInteraction.SetPaths(System.Int32.Parse(StartWarId), System.Int32.Parse(EndWarId), System.Int32.Parse(TransWarId));
+    }
+
+    #endregion
     #endregion
     public LogisticianWindowViewModel()
     {
@@ -103,7 +113,9 @@ namespace DateBaseGUI.ViewModels
       RegularQuantity = _dBInteraction.GetRegularQuantity();
       RequestForTransition = _dBInteraction.GetRequestsForTransition();
       TransitOrderComposition = _dBInteraction.GetTransitOrderComposition();
+
       #region Commands
+      AddNewPathCommand = new LambdaCommand(OnAddNewPathCommandExecuted, CanAddNewPathCommandExecute);
       CloseApplicationCommand = new LambdaCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
       CreateTransitionDocumentCommand = new LambdaCommand(OnCreateTransitionDocumentCommandExevuted, CanCreateTransitionDocumentCommandExecute);
       #endregion
